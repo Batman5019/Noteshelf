@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  <img src="logo.png" alt="My Logo" width="150">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -77,12 +76,31 @@
       flex-direction: column;
     }
 
-    /* Content wrapper to push footer to bottom on short pages */
     .page-content {
       flex: 1 0 auto;
     }
 
-    /* === Footer Feedback Section (scrolls with page) === */
+    /* Header styling */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #111;
+    }
+
+    header img {
+      width: 80px;
+      border-radius: 8px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: gold;
+    }
+
+    /* Footer Feedback Section */
     .bottom-container {
       flex-shrink: 0;
       text-align: center;
@@ -125,6 +143,12 @@
 </head>
 
 <body>
+  <!-- Header with logo and title -->
+  <header>
+    <img src="logo.png" alt="NoteShelf Logo">
+    <h1>🕮 NoteShelf</h1>
+  </header>
+
   <div class="page-content">
     <!-- Top-right "Check Out Nomis" button -->
     <div id="top-buttons-main">
@@ -152,7 +176,6 @@
       </div>
     </div>
 
-    <h1 style="margin-left:140px; color:gold;">🕮 NoteShelf</h1>
     <h4 style="margin-left:140px; color:gold;">NomisAi has been released</h4>
 
     <!-- Search bar -->
@@ -198,57 +221,6 @@
       </div>
     </div>
 
-    <!-- Admin panel on right (Global Message only) -->
-    <div id="admin-panel" style="
-      display:none;
-      position:fixed;
-      top:50px;
-      right:0;
-      width:300px;
-      height:calc(100% - 60px);
-      background:#111;
-      color:#fff;
-      padding:15px;
-      border-left:2px solid #444;
-      overflow-y:auto;
-      z-index:9999;
-      font-family:sans-serif;
-    ">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3>🌍 Global Message</h3>
-        <button id="close-admin" style="
-          background:none; border:none; color:#fff; font-size:18px; cursor:pointer;">❌</button>
-      </div>
-
-      <!-- Input + Send -->
-      <div style="margin-top:15px;">
-        <input id="global-message-input" type="text" placeholder="Type message..."
-               style="width:100%; padding:8px; border:none; border-radius:4px; margin-bottom:10px;">
-        <button id="global-message-send" style="
-          width:100%; padding:8px; background:#28a745; border:none; border-radius:4px; color:#fff; cursor:pointer;">
-          Send
-        </button>
-      </div>
-    </div>
-
-    <!-- Single Global message popup (all users see this) -->
-    <div id="global-message-popup" style="
-      display:none;
-      position:fixed;
-      top:0;
-      left:50%;
-      transform:translateX(-50%) translateY(-50px);
-      background:rgba(0,0,0,0.85);
-      color:#fff;
-      padding:15px 25px;
-      border-radius:8px;
-      font-size:16px;
-      font-weight:bold;
-      z-index:9999;
-      opacity:0;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    "></div>
-
     <!-- Rate Us Popup -->
     <div id="popupRate">
       <span class="closeBtn" onclick="closePopupRate()">×</span>
@@ -265,13 +237,12 @@
     </div>
   </div>
 
-  <!-- Bottom Feedback Section (footer, not fixed) -->
+  <!-- Bottom Feedback Section (footer) -->
   <div class="bottom-container">
     <p>Give us your feedback!</p>
     <button class="gold-btn" onclick="openFeedbackTab()">Feedback</button>
   </div>
 
-  <!-- For local file usage: -->
   <script src="script.js"></script>
 
   <script>
@@ -281,14 +252,13 @@
     const thankYou = document.getElementById('thankYou');
     let selectedRating = 0;
 
-    // Slide down after 10 seconds (adjust as desired)
     setTimeout(() => {
       popupRate.style.top = '20px';
     }, 300000);
 
     function interpolateColor(value, max) {
-      const start = { r: 255, g: 0, b: 0 };   // red
-      const end = { r: 255, g: 215, b: 0 };   // gold
+      const start = { r: 255, g: 0, b: 0 };
+      const end = { r: 255, g: 215, b: 0 };
       const factor = (value - 1) / (max - 1);
       const r = Math.round(start.r + factor * (end.r - start.r));
       const g = Math.round(start.g + factor * (end.g - start.g));
@@ -298,9 +268,7 @@
 
     stars.forEach(star => {
       star.addEventListener('mouseover', () => {
-        stars.forEach(s => {
-          s.style.color = 'rgba(0,0,0,0.5)'; // reset
-        });
+        stars.forEach(s => { s.style.color = 'rgba(0,0,0,0.5)'; });
         stars.forEach(s => {
           if (parseInt(s.dataset.value) <= parseInt(star.dataset.value)) {
             s.style.color = interpolateColor(s.dataset.value, 5);
@@ -328,10 +296,7 @@
           }
         });
         thankYou.style.display = 'block';
-        thankYou.textContent =
-          `Thanks for rating us ${selectedRating} star${selectedRating > 1 ? 's' : ''}!`;
-
-        // Hide popup after rating
+        thankYou.textContent = `Thanks for rating us ${selectedRating} star${selectedRating>1?'s':''}!`;
         popupRate.style.top = '-150px';
       });
     });
@@ -340,17 +305,12 @@
       popupRate.style.top = '-150px';
     }
 
-    // === Feedback Button Logic ===
     function openFeedbackTab() {
       window.open('https://codepen.io/R2FtZU1ha2Vy/full/GgjpzwB', '_blank');
     }
 
-    // Expose functions to global scope
     window.closePopupRate = closePopupRate;
     window.openFeedbackTab = openFeedbackTab;
   </script>
 </body>
-
 </html>
-
-
